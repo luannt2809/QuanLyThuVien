@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xóa thủ thư</title>
+    <title>Xóa sách</title>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/stylesheets/accounts.css" />
 </head>
@@ -29,13 +29,13 @@
                                 <a class="nav-link" aria-current="page" href="/">Trang chủ</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="/accounts">Thủ thư</a>
+                                <a class="nav-link" aria-current="page" href="/accounts">Thủ thư</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/categories">Thể loại</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/books">Sách</a>
+                                <a class="nav-link active" href="/books">Sách</a>
                             </li>
                         </ul>
                         <div class="dropdown">
@@ -53,12 +53,12 @@
         </div>
 
         <div class="row mt-4">
-            <p>Thao tác này sẽ xóa bỏ hồ sơ của <b>
-                    <%= account.username %>
+            <p>Thao tác này sẽ xóa bỏ sách <b>
+                    <%= book.name %>
                 </b></p>
             <div class="form-group mb-4">
                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" id="deleteButton"
-                    data-bs-target="#deleteModal">Xóa thủ thư</button>
+                    data-bs-target="#deleteModal">Xóa sách</button>
             </div>
 
 
@@ -81,7 +81,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
 
-                        <form action="/accounts/delete/<%= account._id %>" method="POST" class="position-relative">
+                        <form action="/books/delete/<%= book._id %>" method="POST" class="position-relative">
                             <button type="submit" class="btn btn-primary">Tôi đồng ý xóa</button>
                         </form>
                     </div>

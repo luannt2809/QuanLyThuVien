@@ -18,6 +18,7 @@ const apiRouter = require('./routes/api')
 
 var accountRouter = require("./routes/accounts");
 var cateRouter = require("./routes/categories");
+var bookRouter = require("./routes/books");
 
 
 var app = express();
@@ -46,6 +47,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/accounts", accountRouter);
 app.use("/categories", cateRouter);
+app.use("/books", bookRouter);
 
 
 // catch 404 and forward to error handler

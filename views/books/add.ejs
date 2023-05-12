@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thêm thủ thư</title>
+    <title>Thêm sách</title>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/stylesheets/accounts.css" />
 </head>
@@ -29,13 +29,13 @@
                                 <a class="nav-link" aria-current="page" href="/">Trang chủ</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="/accounts">Thủ thư</a>
+                                <a class="nav-link" aria-current="page" href="/accounts">Thủ thư</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/categories">Thể loại</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/books">Sách</a>
+                                <a class="nav-link active" href="/books">Sách</a>
                             </li>
                         </ul>
                         <div class="dropdown">
@@ -58,7 +58,7 @@
             </div>
         </div>
 
-        <form action="/accounts/add" method="POST" class="mx-4" enctype="multipart/form-data">
+        <form action="/books/add" method="POST" class="mx-4" enctype="multipart/form-data">
             <% if (msg) { %>
                 <p class="alert alert-danger">
                     <%= msg %>
@@ -66,48 +66,72 @@
                 <% } %>
                     <div class="row form-group mb-4">
                         <div class="col">
-                            <label for="username">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" value=""
-                                placeholder="Username">
+                            <label for="name">Tên sách</label>
+                            <input type="text" class="form-control" id="name" name="name" value=""
+                                placeholder="Tên sách">
                         </div>
 
                         <div class="col">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" name="passwd" value=""
-                                placeholder="Password">
-                        </div>
-                    </div>
-
-                    <div class="row form-group mb-4">
-                        <div class="col">
-                            <label for="email">Email</label>
-                            <input type="text" class="form-control" id="email" name="email" value=""
-                                placeholder="Email">
-                        </div>
-
-                        <div class="col">
-                            <label for="fullname">Họ và tên</label>
-                            <input type="text" class="form-control" id="fullname" name="fullname" value=""
-                                placeholder="Họ và tên">
+                            <label for="author">Tác giả</label>
+                            <input type="text" class="form-control" id="author" name="author" value=""
+                                placeholder="Tác giả">
                         </div>
                     </div>
 
                     <div class="row form-group mb-4">
                         <div class="col">
-                            <label for="avatar">Avatar</label>
-                            <input type="file" class="form-control" id="avatar" name="avatar" value=""
-                                placeholder="Avatar">
+                            <label for="priceBook">Giá sách</label>
+                            <input type="number" class="form-control" id="priceBook" name="priceBook" value=""
+                                placeholder="Giá sách">
                         </div>
 
                         <div class="col">
-                            <label for="role">Vai trò</label>
-                            <input type="text" class="form-control" id="role" name="role" value="Thủ thư"
-                                placeholder="Vai trò" disabled>
+                            <label for="priceRent">Giá thuê</label>
+                            <input type="number" class="form-control" id="priceRent" name="priceRent" value=""
+                                placeholder="Giá thuê">
+                        </div>
+                    </div>
+
+                    <div class="row form-group mb-4">
+                        <div class="col">
+                            <label for="quantity">Số lượng</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity" value=""
+                                placeholder="Số lượng">
+                        </div>
+
+                        <div class="col">
+                            <label for="nxb">Nhà xuất bản</label>
+                            <input type="text" class="form-control" id="nxb" name="nxb" value=""
+                                placeholder="Nhà xuất bản">
+                        </div>
+                    </div>
+
+                    <div class="row form-group mb-4">
+                        <div class="col">
+                            <label for="image">Ảnh</label>
+                            <input type="file" class="form-control" id="image" name="image" value="" placeholder="Ảnh">
+                        </div>
+
+                        <div class="col">
+                            <label for="cateId">Thể loại</label>
+                            <select class="form-select" aria-label="Chọn thể loại" name="cateId" required>
+                                <% categories.forEach(element=> { %>
+                                    <option value="<%= element._id %>">
+                                        <%= element.name %>
+                                    </option>
+                                    <% }) %>
+                            </select>
                         </div>
                     </div>
 
                     <div class="form-group mb-4">
-                        <button type="submit" class="btn btn-primary">Thêm thủ thư</button>
+                        <label for="desc">Mô tả</label>
+                        <textarea class="form-control mt-2" name="desc" id="desc" cols="30" rows="10"
+                            placeholder="Mô tả sản phẩm"></textarea>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <button type="submit" class="btn btn-primary">Thêm sách</button>
                     </div>
         </form>
 

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thông tin thủ thư</title>
+    <title>Thông tin sách</title>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/stylesheets/accounts.css" />
 </head>
@@ -29,13 +29,13 @@
                                 <a class="nav-link" aria-current="page" href="/">Trang chủ</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="/accounts">Thủ thư</a>
+                                <a class="nav-link" aria-current="page" href="/accounts">Thủ thư</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/categories">Thể loại</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/books">Sách</a>
+                                <a class="nav-link active" href="/books">Sách</a>
                             </li>
                         </ul>
                         <div class="dropdown">
@@ -56,7 +56,7 @@
             <div
                 class="container pt-3 pb-2 mb-3 border-bottom d-flex justify-content-between flex-wrap flex-md nowrap align-items-center">
                 <h1 class="h3 ps-4">
-                    <%= account.fullname %>
+                    <%= book.name %>
                 </h1>
                 <div class="btn-toolbar mb-2 mb-md 0">
                     <div class="btn-group me-2">
@@ -69,40 +69,76 @@
 
         <ul class="list-group mx-4 mt-3">
             <li class="list-group-item">
-                <img src="<%= account.avatar %>" alt="" style="height: 80px;">
+                <img src="<%= book.image %>" alt="" style="height: 80px;">
             </li>
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col" style="max-width: 140px;"> <b>Username:</b></div>
+                    <div class="col" style="max-width: 140px;"> <b>Tên sách:</b></div>
                     <div class="col">
-                        <%= account.username %>
+                        <%= book.name %>
                     </div>
                 </div>
             </li>
 
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col" style="max-width: 140px;"> <b>Email:</b></div>
+                    <div class="col" style="max-width: 140px;"> <b>Tác giả:</b></div>
                     <div class="col">
-                        <%= account.email %>
+                        <%= book.author %>
                     </div>
                 </div>
             </li>
 
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col" style="max-width: 140px;"> <b>Họ và tên:</b></div>
+                    <div class="col" style="max-width: 140px;"> <b>Thể loại:</b></div>
                     <div class="col">
-                        <%= account.fullname %>
+                        <%= book.cateId.name %>
                     </div>
                 </div>
             </li>
 
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col" style="max-width: 140px;"> <b>Vai trò:</b></div>
+                    <div class="col" style="max-width: 140px;"> <b>Giá sách:</b></div>
                     <div class="col">
-                        <%= account.roleId.name %>
+                        <%= book.priceBook %> vnđ
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col" style="max-width: 140px;"> <b>Giá thuê:</b></div>
+                    <div class="col">
+                        <%= book.priceRent %> vnđ
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col" style="max-width: 140px;"> <b>Số lượng:</b></div>
+                    <div class="col">
+                        <%= book.quantity %>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col" style="max-width: 140px;"> <b>Nhà xuất bản:</b></div>
+                    <div class="col">
+                        <%= book.nxb %>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col" style="max-width: 140px;"> <b>Mô tả:</b></div>
+                    <div class="col">
+                        <%= book.desc %>
                     </div>
                 </div>
             </li>
