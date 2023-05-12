@@ -4,23 +4,23 @@ const accountSchema = new db.Schema(
   {
     username: {
       type: String,
-      require: true,
+      required: true,
     },
     passwd: {
       type: String,
-      require: true,
+      required: true,
     },
     fullname: {
       type: String,
-      require: true,
+      required: true,
     },
     email: {
       type: String,
-      require: false,
+      required: false,
     },
     avatar: {
       type: String,
-      require: true,
+      required: true,
     },
     roleId: { type: db.Schema.Types.ObjectId, ref: "roleModel" },
   },
@@ -33,7 +33,7 @@ let accountModel = db.model("accountModel", accountSchema);
 
 const roleSchema = new db.Schema(
   {
-    name: { type: String, require: true },
+    name: { type: String, required: true },
   },
   {
     collection: "roles",
