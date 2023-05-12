@@ -92,6 +92,7 @@ exports.postBook = async (req, res, next) => {
             quantity: req.body.quantity,
             nxb: req.body.nxb,
             image: base64_image,
+            desc: req.body.desc,
             cateId: req.body.cateId,
           });
           console.log(req.body);
@@ -175,6 +176,7 @@ exports.putBook = async (req, res, next) => {
         quantity: req.body.quantity,
         nxb: req.body.nxb,
         image: book.image,
+        desc: req.body.desc,
         cateId: req.body.cateId,
       });
       res.redirect("/books");
@@ -201,6 +203,7 @@ exports.putBook = async (req, res, next) => {
             quantity: req.body.quantity,
             nxb: req.body.nxb,
             image: base64_image,
+            desc: req.body.desc,
             cateId: req.body.cateId,
           });
           res.redirect("/books");

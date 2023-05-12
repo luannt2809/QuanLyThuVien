@@ -1,6 +1,6 @@
 var db = require("./database");
 
-const accountSchema = new db.Schema(
+const accountSchema = new db.mongoose.Schema(
   {
     username: {
       type: String,
@@ -22,16 +22,16 @@ const accountSchema = new db.Schema(
       type: String,
       required: true,
     },
-    roleId: { type: db.Schema.Types.ObjectId, ref: "roleModel" },
+    roleId: { type: db.mongoose.Schema.Types.ObjectId, ref: "roleModel" },
   },
   {
     collection: "accounts",
   }
 );
 
-let accountModel = db.model("accountModel", accountSchema);
+let accountModel = db.mongoose.model("accountModel", accountSchema);
 
-const roleSchema = new db.Schema(
+const roleSchema = new db.mongoose.Schema(
   {
     name: { type: String, required: true },
   },
@@ -40,7 +40,7 @@ const roleSchema = new db.Schema(
   }
 );
 
-let roleModel = db.model("roleModel", roleSchema);
+let roleModel = db.mongoose.model("roleModel", roleSchema);
 
 module.exports = {
   accountModel,

@@ -1,6 +1,6 @@
 var db = require("./database");
 
-const bookSchema = new db.Schema(
+const bookSchema = new db.mongoose.Schema(
   {
     name: { type: String, required: true },
     priceBook: { type: Number, required: true },
@@ -10,16 +10,16 @@ const bookSchema = new db.Schema(
     quantity: { type: Number, required: true },
     desc: { type: String, required: false },
     image: { type: String, required: true },
-    cateId: { type: db.Schema.Types.ObjectId, ref: "cateModel" },
+    cateId: { type: db.mongoose.Schema.Types.ObjectId, ref: "cateModel" },
   },
   {
     collection: "books",
   }
 );
 
-let bookModel = db.model("bookModel", bookSchema);
+let bookModel = db.mongoose.model("bookModel", bookSchema);
 
-const cateSchema = new db.Schema(
+const cateSchema = new db.mongoose.Schema(
   {
     name: {
       type: String,
@@ -35,6 +35,6 @@ const cateSchema = new db.Schema(
   }
 );
 
-let cateModel = db.model("cateModel", cateSchema);
+let cateModel = db.mongoose.model("cateModel", cateSchema);
 
 module.exports = { bookModel, cateModel };
