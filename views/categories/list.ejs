@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thông tin thủ thư</title>
+    <title>Danh sách thể loại</title>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/stylesheets/accounts.css" />
 </head>
@@ -29,10 +29,10 @@
                                 <a class="nav-link" aria-current="page" href="/">Trang chủ</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="/accounts">Thủ thư</a>
+                                <a class="nav-link" aria-current="page" href="/accounts">Thủ thư</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/categories">Thể loại</a>
+                                <a class="nav-link active" href="/categories">Thể loại</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Sách</a>
@@ -52,62 +52,65 @@
             </nav>
         </div>
 
-        <div class="row">
-            <div
-                class="container pt-3 pb-2 mb-3 border-bottom d-flex justify-content-between flex-wrap flex-md nowrap align-items-center">
-                <h1 class="h3 ps-4">
-                    <%= account.fullname %>
-                </h1>
-                <div class="btn-toolbar mb-2 mb-md 0">
-                    <div class="btn-group me-2">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+        <div class="d-flex justify-content-end mt-4">
+            <a href="/categories/add" class="btn btn-outline-secondary">+ Thêm thể loại</a>
+        </div>
+
+        <div class="container">
+            <form action="/categories/search/" method="GET">
+                <div class="input-group mt-4">
+                    <input type="text" class="form-control" id="keyword" name="keyword" value=""
+                        placeholder="Nhập từ khóa">
+                    <button class="btn btn-outline-secondary" type="submit">Tìm kiếm</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-12 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <span><i class="bi bi-table me-2"></i></span>
+                        Danh sách thể loại
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="example" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">STT</th>
+                                        <th>Ảnh</th>
+                                        <th>Tên</th>
+                                        <th>Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% categories.forEach((element, index)=> { %>
+                                        <tr class="align-middle">
+                                            <td class="fw-medium text-center">
+                                                <%= index + 1 %>
+                                            </td>
+                                            <td>
+                                                <img src="<%= element.image %>" alt="" style="height: 30px;">
+                                            </td>
+                                            <td>
+
+                                                <%= element.name %>
+                                            </td>
+                                            <td>
+                                                <a href="/categories/edit/<%= element._id %>" type="button"
+                                                    class="btn btn-warning">Edit</a>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
-
-        <ul class="list-group mx-4 mt-3">
-            <li class="list-group-item">
-                <img src="<%= account.avatar %>" alt="" style="height: 80px;">
-            </li>
-            <li class="list-group-item">
-                <div class="row">
-                    <div class="col" style="max-width: 140px;"> <b>Username:</b></div>
-                    <div class="col">
-                        <%= account.username %>
-                    </div>
-                </div>
-            </li>
-
-            <li class="list-group-item">
-                <div class="row">
-                    <div class="col" style="max-width: 140px;"> <b>Email:</b></div>
-                    <div class="col">
-                        <%= account.email %>
-                    </div>
-                </div>
-            </li>
-
-            <li class="list-group-item">
-                <div class="row">
-                    <div class="col" style="max-width: 140px;"> <b>Họ và tên:</b></div>
-                    <div class="col">
-                        <%= account.fullname %>
-                    </div>
-                </div>
-            </li>
-
-            <li class="list-group-item">
-                <div class="row">
-                    <div class="col" style="max-width: 140px;"> <b>Vai trò:</b></div>
-                    <div class="col">
-                        <%= account.roleId.name %>
-                    </div>
-                </div>
-            </li>
-        </ul>
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
