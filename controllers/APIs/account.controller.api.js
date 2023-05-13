@@ -1,20 +1,22 @@
-const accountModel = require("../../models/user.model")
+const accountModel = require("../../models/accounts.model")
 const bcrypt = require("bcrypt")
 exports.login = async (req, res, next)=>{
     let dataReturn ={
         status:200,
         message:""
     }   
-    let user = await accountModel.ModelUser.findOne({username:req.body.username}).populate("role")
+    let user = await accountModel.accountModel.findOne({username:req.body.username}).populate("roleId")
     if(user!=null){
-        let checkPass = await bcrypt.compare(user.passwd, req.body.passwd);
+        let checkPass = await bcrypt.compare(req.body.passwd, user.passwd);
+        console.log(checkPass);
         if(checkPass==true){
             dataReturn.message="Đăng nhập thành công"
             dataReturn.status=200
+            dataReturn.data = user
         }else{
             dataReturn.message="Sai mật khẩu"
             dataReturn.status=204
-            dataReturn.data = user
+           
         }
     }else{
         dataReturn.message="Tài khoản không tồn tại"
@@ -28,7 +30,7 @@ exports.getAccount = async (req, res, next)=>{
         status:200
     }
     const idAccount = req.params.idAccount
-    let account = await accountModel.ModelUser.findOne({_id:idAccount}).populate("role")
+    let account = await accountModel.accountModel.findOne({_id:idAccount}).populate("roleId")
     dataReturn.data =account
     dataReturn.message="Lấy dữ liệu thành công"
     res.json(dataReturn)
@@ -38,38 +40,55 @@ exports.updateAccount = async (req, res, next)=>{
         status:200,
         message:"Cập nhật tài khoản thành công"
     }
-    let Account = await accountModel.ModelUser.findOne({_id:req.params.idAccount}).populate("role")
-    let accountUpdate = Account
-    if((req.body.passwd!=""||req.body.passwd!=null)
-    &&(req.body.fullname!=""||req.body.fullname!=null)&&(req.body.image!=""||req.body.image!=null) ){
-        const salt = await bcrypt.genSalt(15)
-        let pass = await bcrypt.hash(req.body.passwd, salt);
-        accountUpdate.passwd = pass
-        accountUpdate.fullname = req.body.fullname
-        accountUpdate.image = req.body.image
-        await accountModel.ModelUser.updateOne({_id:req.params.idAccount}, accountUpdate)
-
-        return res.json(dataReturn)
-    }else{
-        if(req.body.passwd!=""||req.body.passwd!=null){
-            accountUpdate.passwd = Account.passwd
-        }else{
+    try {
+        let Account = await accountModel.accountModel.findOne({_id:req.params.idAccount}).populate("roleId")
+        let accountUpdate = Account
+        if((req.body.passwd!=""&&req.body.passwd!=undefined)
+        &&(req.body.fullname!=""&&req.body.fullname!=undefined)&&(req.body.email!=""&&req.body.email!=undefined)
+        &&(req.body.avatar!=""&&req.body.avatar!=undefined) ){
             const salt = await bcrypt.genSalt(15)
             let pass = await bcrypt.hash(req.body.passwd, salt);
+            console.log("step1");
             accountUpdate.passwd = pass
-        }
-        if(req.body.fullname!=""||req.body.fullname!=null){
-            accountUpdate.fullname = Account.fullname
-        }else{
             accountUpdate.fullname = req.body.fullname
-        }
-        if(req.body.image!=""||req.body.image!=null){
-            accountUpdate.image = Account.image
+            accountUpdate.avatar = req.body.avatar
+            accountUpdate.email = req.body.email
+            await accountModel.accountModel.updateOne({_id:req.params.idAccount}, accountUpdate)
+    
+            return res.json(dataReturn)
         }else{
-            accountUpdate.image = req.body.image
+            console.log("step2");
+            if(req.body.passwd!=""&&req.body.passwd!=undefined){
+                accountUpdate.passwd = Account.passwd
+            }else{
+                const salt = await bcrypt.genSalt(15)
+                let pass = await bcrypt.hash(req.body.passwd, salt);
+                accountUpdate.passwd = pass
+            }
+            if(req.body.fullname!=""&&req.body.fullname!=undefined){
+                accountUpdate.fullname = req.body.fullname
+              
+            }else{
+                accountUpdate.fullname = Account.fullname
+            }
+            if(req.body.avatar!=""&&req.body.avatar!=undefined){
+                accountUpdate.avatar = req.body.avatar
+            }else{
+                accountUpdate.avatar = Account.avatar
+               
+            }
+            if(req.body.email!=""&&req.body.email!=undefined){
+                accountUpdate.email = req.body.email
+            }else{
+                accountUpdate.email = Account.email
+            }
+            await accountModel.accountModel.updateOne({_id:req.params.idAccount}, accountUpdate)
+            return res.json(dataReturn)
+    
         }
-        await accountModel.ModelUser.updateOne({_id:req.params.idAccount}, accountUpdate)
-        return res.json(dataReturn)
-
+    } catch (error) {
+        dataReturn.message=error
+        dataReturn.status=500
     }
+   
 }
