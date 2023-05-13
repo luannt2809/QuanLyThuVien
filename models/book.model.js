@@ -13,7 +13,7 @@ const bookSchema = new db.mongoose.Schema(
     nxb: { type: String, required: true },
     image: { type: String },
     desc: { type: String },
-    quantity: { type: Number, required: true },
+    quantity: { type: Number, required: true, default:0 },
   },
   {
     collection: "books",
@@ -22,9 +22,13 @@ const bookSchema = new db.mongoose.Schema(
 const categorySchema = new db.mongoose.Schema(
   {
     name: { type: String, required: true },
+    image: {
+      type: String,
+      required: true,
+    }
   },
   {
-    collection: "cattegorys",
+    collection: "categories",
   }
 );
 const ModelBook = db.mongoose.model("ModelBook", bookSchema);
