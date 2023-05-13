@@ -1,5 +1,6 @@
 var accountModel = require("../models/accounts.model");
 var fs = require("fs");
+const bcrypt = require("bcrypt")
 
 exports.list = async (req, res, next) => {
   try {
@@ -70,9 +71,11 @@ exports.postAccount = async (req, res, next) => {
           });
           base64_avatar =
             "data:image/png;base64," + fileImage.toString("base64");
+          const salt = await bcrypt.genSalt(15)
+          let pass = await bcrypt.hash(req.body.passwd, salt);
           const newAccount = new accountModel.accountModel({
             username: req.body.username,
-            passwd: req.body.passwd,
+            passwd: pass,
             fullname: req.body.fullname,
             avatar: base64_avatar,
             email: req.body.email,
@@ -127,7 +130,7 @@ exports.putAccount = async (req, res, next) => {
       .populate("roleId");
 
     if (
-      req.body.username.length === 0 ||
+      // req.body.username.length === 0 ||
       req.body.fullname.length === 0 ||
       req.body.email.length === 0
     ) {
@@ -143,90 +146,101 @@ exports.putAccount = async (req, res, next) => {
       return;
     }
 
-    const checkUsername = await accountModel.accountModel.findOne({
-      username: req.body.username,
-    });
-    if (checkUsername) {
-      msg = "Username đã tồn tại !!!";
-      res.render("accounts/edit", { msg: msg, account: account });
-      return;
-    }
+    // const checkUsername = await accountModel.accountModel.findOne({
+    //   username: req.body.username,
+    // });
+    // if (checkUsername) {
+    //   msg = "Username đã tồn tại !!!";
+    //   res.render("accounts/edit", { msg: msg, account: account });
+    //   return;
+    // }
+
 
     if (!req.file) {
-      accountModel.accountModel.findByIdAndUpdate(req.params.id, {
-        username: req.body.username,
-        passwd: req.body.passwd,
-        avatar: account.avatar,
-        email: req.body.email,
-        fullname: req.body.fullname,
-        roleId: "645baaef738c215da807bae6",
-      });
-      res.redirect("/accounts");
-    }
-
-    if (!req.body.passwd) {
-      const oldPasswd = account.passwd;
-      account.passwd = oldPasswd;
-      await accountModel.accountModel.findByIdAndUpdate(req.params.id, {
-        username: req.body.username,
-        passwd: oldPasswd,
-        email: req.body.email,
-        fullname: req.body.fullname,
-        avatar: account.avatar,
-        roleId: "645baaef738c215da807bae6",
-      });
-      res.redirect("/accounts");
+      // const salt = await bcrypt.genSalt(15)
+      // let pass = await bcrypt.hash(req.body.passwd, salt);
+      // accountModel.accountModel.findByIdAndUpdate(req.params.id, {
+      //   username: account.username,
+      //   passwd: pass,
+      //   avatar: account.avatar,
+      //   email: req.body.email,
+      //   fullname: req.body.fullname,
+      //   roleId: "645baaef738c215da807bae6",
+      // });
+      // res.redirect("/accounts");
+      if (!req.body.passwd) {
+        const oldPasswd = account.passwd;
+        account.passwd = oldPasswd;
+        await accountModel.accountModel.findByIdAndUpdate(req.params.id, {
+          username: account.username,
+          passwd: oldPasswd,
+          email: req.body.email,
+          fullname: req.body.fullname,
+          avatar: account.avatar,
+          roleId: "645baaef738c215da807bae6",
+        });
+        res.redirect("/accounts");
+      } else {
+        const salt = await bcrypt.genSalt(15)
+        let pass = await bcrypt.hash(req.body.passwd, salt);
+        await accountModel.accountModel.findByIdAndUpdate(req.params.id, {
+          username: account.username,
+          passwd: pass,
+          email: req.body.email,
+          fullname: req.body.fullname,
+          avatar: account.avatar,
+          roleId: "645baaef738c215da807bae6",
+        });
+        res.redirect("/accounts");
+      }
     } else {
-      await accountModel.accountModel.findByIdAndUpdate(req.params.id, {
-        username: req.body.username,
-        passwd: req.body.passwd,
-        email: req.body.email,
-        fullname: req.body.fullname,
-        avatar: account.avatar,
-        roleId: "645baaef738c215da807bae6",
-      });
-      res.redirect("/accounts");
-    }
-
-    fs.rename(
-      req.file.path,
-      "./public/uploads/" + req.file.originalname,
-      async (err) => {
-        if (err) {
-          console.log(err);
-        } else {
-          url_avatar = "/uploads/" + req.file.originalname;
-          var fileImage = fs.readFileSync("public" + url_avatar, {
-            encoding: "base64",
-          });
-          base64_avatar =
-            "data:image/png;base64," + fileImage.toString("base64");
-          if (!req.body.passwd) {
-            const oldPasswd = account.passwd;
-            account.passwd = oldPasswd;
-            await accountModel.accountModel.findByIdAndUpdate(req.params.id, {
-              username: req.body.username,
-              passwd: oldPasswd,
-              email: req.body.email,
-              fullname: req.body.fullname,
-              avatar: base64_avatar,
-              roleId: "645baaef738c215da807bae6",
-            });
-            res.redirect("/accounts");
+      fs.rename(
+        req.file.path,
+        "./public/uploads/" + req.file.originalname,
+        async (err) => {
+          if (err) {
+            console.log(err);
           } else {
-            accountModel.accountModel.findByIdAndUpdate(req.params.id, {
-              username: req.body.username,
-              passwd: req.body.passwd,
-              avatar: base64_avatar,
-              email: req.body.email,
-              fullname: req.body.fullname,
-              roleId: "645baaef738c215da807bae6",
+            url_avatar = "/uploads/" + req.file.originalname;
+            var fileImage = fs.readFileSync("public" + url_avatar, {
+              encoding: "base64",
             });
-            res.redirect("/accounts");
+            base64_avatar =
+              "data:image/png;base64," + fileImage.toString("base64");
+            console.log(req.body.passwd);
+            if (!req.body.passwd) {
+              const oldPasswd = account.passwd;
+              account.passwd = oldPasswd;
+              await accountModel.accountModel.findByIdAndUpdate(req.params.id, {
+                username: account.username,
+                passwd: oldPasswd,
+                email: req.body.email,
+                fullname: req.body.fullname,
+                avatar: base64_avatar,
+                roleId: "645baaef738c215da807bae6",
+              });
+              res.redirect("/accounts");
+            } else {
+              const salt = await bcrypt.genSalt(15)
+              let pass = await bcrypt.hash(req.body.passwd, salt);
+              accountModel.accountModel.findByIdAndUpdate(req.params.id, {
+                username: account.username,
+                passwd: pass,
+                avatar: base64_avatar,
+                email: req.body.email,
+                fullname: req.body.fullname,
+                roleId: "645baaef738c215da807bae6",
+              });
+              res.redirect("/accounts");
+            }
           }
         }
-      }
-    );
+      );
+    }
+
+
+
+
   } catch (err) {
     console.error(err);
   }
