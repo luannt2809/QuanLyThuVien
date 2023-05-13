@@ -4,13 +4,8 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const bodyParser = require("body-parser");
-// app.use(
-//   session({
-//     secret: "nhvhi3432jhdsfb4242fy2h3nksjdfh9", // chuỗi ký tự đặc biệt để Session mã hóa
-//     resave: true,
-//     saveUninitialized: true,
-//   })
-// );
+const session = require("express-session")
+
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 const apiRouter = require("./routes/api");
@@ -33,7 +28,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
+app.use(
+  session({
+    secret: "nhvhi3432jhdsfb4242fy2h3nksjdfh9", // chuỗi ký tự đặc biệt để Session mã hóa
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/api", apiRouter);

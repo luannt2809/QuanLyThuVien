@@ -10,6 +10,8 @@ const userSchema = new db.mongoose.Schema({
 })
 const roleSchema = new db.mongoose.Schema({
     name:{type:String, required:true}
+}, {
+    collection:"roles"
 })
 const ModelUser = db.mongoose.model("ModelUser", userSchema)
 const ModelRole = db.mongoose.model("ModelRole",roleSchema)
