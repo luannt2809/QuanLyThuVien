@@ -4,9 +4,16 @@ exports.getListBook = async (req, res, next)=>{
         message:"Lấy dữ liệu thành công",
         status:200
     }
+    let catId = req.query.catId
     try {
-        let listBook = await bookModel.ModelBook.find().populate("catId")
-        dataReturn.data = listBook
+        if(catId==""){
+            let listBook = await bookModel.ModelBook.find().populate("catId")
+            dataReturn.data = listBook
+        }else{
+            let listBook = await bookModel.ModelBook.find({catId:catId}).populate("catId")
+            dataReturn.data = listBook
+        }
+       
     } catch (error) {
         dataReturn.message=error
         dataReturn.status=500
