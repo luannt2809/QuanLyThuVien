@@ -7,7 +7,8 @@ const billSchema = new db.mongoose.Schema({
     datePay: { type: String, required: true },
     totalPrice: { type: Number, default: 0, required: true },
     phone: { type: String, required: true }, 
-    fullname:{type:String , required:true}
+    fullname:{type:String , required:true}, 
+    status:{type:Boolean, default:false}
 }, { collection: "bills" })
 const ModelBill = db.mongoose.model("ModelBill", billSchema)
 module.exports = { ModelBill }
