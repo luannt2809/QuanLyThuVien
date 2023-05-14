@@ -1,6 +1,9 @@
 var express = require("express");
 var router = express.Router();
 var cateController = require("../controllers/categories.controller");
+var checkLogin = require("../middleware/check_login");
+
+router.use(checkLogin.requireLogin);
 
 router.get("/", cateController.list);
 
