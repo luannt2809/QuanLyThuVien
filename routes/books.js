@@ -3,6 +3,9 @@ var router = express.Router();
 var bookController = require("../controllers/book.controllers");
 var multer = require("multer");
 var uploader = multer({ dest: "./tmp" });
+var checkLogin = require("../middleware/check_login");
+
+router.use(checkLogin.requireLogin);
 
 router.get("/", bookController.list);
 

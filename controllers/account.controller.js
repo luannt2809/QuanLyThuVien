@@ -1,6 +1,36 @@
 var accountModel = require("../models/accounts.model");
 var fs = require("fs");
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt");
+
+exports.login = async (req, res, next) => {
+  let msg = "";
+  if (req.method == "POST") {
+    console.log(req.body);
+    try {
+      let account = await accountModel.accountModel.findOne({
+        username: req.body.username,
+      });
+
+      if (account != null) {
+        // let checkpass = bcrypt.compare(req.body.passwd, user.password);
+        if (account.roleId != "645baad7738c215da807bae5") {
+          msg = "Bạn không phải là quản trị viên.";
+        } else if (req.body.passwd == account.passwd) {
+          req.session.accountLogin = account;
+          msg = "";
+          return res.redirect("/");
+        } else {
+          msg = "Sai mật khẩu.";
+        }
+      } else {
+        msg = "Tài khoản không tồn tại.";
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  res.render("accounts/login", { msg: msg });
+};
 
 exports.list = async (req, res, next) => {
   try {
@@ -71,7 +101,7 @@ exports.postAccount = async (req, res, next) => {
           });
           base64_avatar =
             "data:image/png;base64," + fileImage.toString("base64");
-          const salt = await bcrypt.genSalt(15)
+          const salt = await bcrypt.genSalt(15);
           let pass = await bcrypt.hash(req.body.passwd, salt);
           const newAccount = new accountModel.accountModel({
             username: req.body.username,
@@ -155,7 +185,6 @@ exports.putAccount = async (req, res, next) => {
     //   return;
     // }
 
-
     if (!req.file) {
       // const salt = await bcrypt.genSalt(15)
       // let pass = await bcrypt.hash(req.body.passwd, salt);
@@ -181,7 +210,7 @@ exports.putAccount = async (req, res, next) => {
         });
         res.redirect("/accounts");
       } else {
-        const salt = await bcrypt.genSalt(15)
+        const salt = await bcrypt.genSalt(15);
         let pass = await bcrypt.hash(req.body.passwd, salt);
         await accountModel.accountModel.findByIdAndUpdate(req.params.id, {
           username: account.username,
@@ -221,7 +250,7 @@ exports.putAccount = async (req, res, next) => {
               });
               res.redirect("/accounts");
             } else {
-              const salt = await bcrypt.genSalt(15)
+              const salt = await bcrypt.genSalt(15);
               let pass = await bcrypt.hash(req.body.passwd, salt);
               accountModel.accountModel.findByIdAndUpdate(req.params.id, {
                 username: account.username,
@@ -237,10 +266,6 @@ exports.putAccount = async (req, res, next) => {
         }
       );
     }
-
-
-
-
   } catch (err) {
     console.error(err);
   }
