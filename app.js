@@ -4,7 +4,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const bodyParser = require("body-parser");
-const session = require("express-session")
+const session = require("express-session");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -13,6 +13,7 @@ const apiRouter = require("./routes/api");
 var accountRouter = require("./routes/accounts");
 var cateRouter = require("./routes/categories");
 var bookRouter = require("./routes/books");
+var billRouter = require("./routes/bills");
 
 var app = express();
 
@@ -44,6 +45,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/accounts", accountRouter);
 app.use("/categories", cateRouter);
 app.use("/books", bookRouter);
+app.use("/bills", billRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
