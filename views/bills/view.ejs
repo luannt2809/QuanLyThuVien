@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin phiếu mượn</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/stylesheets/accounts.css" />
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <%- include('../layouts/navBills.ejs') %>
+        </div>
+
+        <div class="row">
+            <div
+                class="container pt-3 pb-2 mb-3 border-bottom d-flex justify-content-between flex-wrap flex-md nowrap align-items-center">
+                <h1 class="h3 ps-4">
+                    Thông tin phiếu mượn
+                </h1>
+                <div class="btn-toolbar mb-2 mb-md 0">
+                    <div class="btn-group me-2">
+                        <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ul class="list-group mx-4 mt-3">
+            <!-- <li class="list-group-item">
+                <img src="<%= // bill.image %>" alt="" style="height: 80px;">
+            </li> -->
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col" style="max-width: 140px;"> <b>Tên sách:</b></div>
+                    <div class="col">
+                        <% bill.bookId.forEach(element=> { %>
+                            <%= element.name %> <br>
+                                <% }) %>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col" style="max-width: 140px;"> <b>Thủ thư:</b></div>
+                    <div class="col">
+                        <%= bill.accountId.fullname %>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col" style="max-width: 140px;"> <b>Ngày mượn:</b></div>
+                    <div class="col">
+                        <%= bill.dateRent %>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col" style="max-width: 140px;"> <b>Ngày trả:</b></div>
+                    <div class="col">
+                        <%= bill.datePay %>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col" style="max-width: 140px;"> <b>Người thuê:</b></div>
+                    <div class="col">
+                        <%= bill.fullname %>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col" style="max-width: 140px;"> <b>Số điện thoại:</b></div>
+                    <div class="col">
+                        <%= bill.phone %>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col" style="max-width: 140px;"> <b>Tổng tiền:</b></div>
+                    <div class="col">
+                        <%= bill.totalPrice %> vnđ
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col" style="max-width: 140px;"> <b>Trạng thái:</b></div>
+
+                    <% if (bill.status==0) { %>
+                        <div class="col">
+                            Chưa trả
+                        </div>
+                        <% } %>
+                            <% if (bill.status==1) { %>
+                                <div class="col">
+                                    Đã trả
+                                </div>
+                                <% } %>
+                </div>
+            </li>
+        </ul>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
+        integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
+        integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
