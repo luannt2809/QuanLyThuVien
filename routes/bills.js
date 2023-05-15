@@ -3,6 +3,8 @@ var router = express.Router();
 var billCtrl = require("../controllers/bill.controller");
 var checkLogin = require("../middleware/check_login");
 
+router.use(checkLogin.requireLogin);
+
 router.get("/", billCtrl.list);
 
 router.get("/view/:id", billCtrl.view);
