@@ -48,3 +48,19 @@ exports.searchBook =async (req, res, next)=>{
     }
     return res.json(dataReturn)
 }
+exports.viewBook = async(req, res, next)=>{
+    let dataReturn ={
+        status:200,
+        message:"Lấy dữ liệu thành công"
+    }
+    let idBook = req.params.idBook;
+    try {
+        let bookDetail = await bookModel.ModelBook.findOne({_id:idBook}).populate("catId")
+        dataReturn.data = bookDetail
+        
+    } catch (error) {
+        dataReturn.message= error
+        dataReturn.status=500
+    }
+    return res.josn(dataReturn)
+}

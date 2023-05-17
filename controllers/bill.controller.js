@@ -1,8 +1,10 @@
 var billModel = require("../models/bill.model");
-
+const moment = require('moment')
 exports.list = async (req, res, next) => {
   try {
     const searchKeyword = req.query.keyword || "";
+    const searchDateRent = req.query.searchDateRent || "";
+    const searchDatePay = req.query.searchDatePay || ""
 
     let bills = await billModel.ModelBill.find()
       .populate("accountId")
@@ -15,6 +17,8 @@ exports.list = async (req, res, next) => {
     res.render("bills/list", {
       bills: bills,
       searchKeyword: searchKeyword,
+      searchDateRent: searchDateRent,
+      searchDatePay: searchDatePay
     });
   } catch (err) {
     console.error(err);
@@ -73,13 +77,21 @@ exports.searchBill = async (req, res, next) => {
   try {
     const searchKeyword = req.query.keyword || "";
     // const phoneNumberRegex = /^(?:\+?84|0)(?:\d{9}|\d{10})$/;
-
+    const searchDateRent = req.query.searchDateRent || "";
+    const searchDatePay = req.query.searchDatePay || ""
     const query = {};
 
     if (searchKeyword) {
       query.phone = { $regex: searchKeyword };
     }
-
+    if (searchDateRent) {
+      const dateNew = moment(searchDateRent).format("DD/MM/YYYY")
+      query.dateRent = dateNew
+    }
+    if (searchDatePay) {
+      const dateNew = moment(searchDatePay).format("DD/MM/YYYY")
+      query.datePay = dateNew
+    }
     let bills = await billModel.ModelBill.find(query)
       .populate("accountId")
       .populate("bookId");
@@ -87,6 +99,8 @@ exports.searchBill = async (req, res, next) => {
     res.render("bills/list", {
       bills: bills,
       searchKeyword: searchKeyword,
+      searchDateRent: searchDateRent,
+      searchDatePay: searchDatePay
     });
   } catch (err) {
     console.error(err);

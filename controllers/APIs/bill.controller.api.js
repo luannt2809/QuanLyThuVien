@@ -5,14 +5,16 @@ exports.getListBill = async (req, res, next) => {
         message: "Lấy dữ liệu thành công",
         status: 200
     }
-    let status = req.query.status
-    
+    let status = req.query.status || ""
+
     try {
-        if(status!=null||status!=""){
-            let listBill = await billModel.ModelBill.find({status:status}).populate("bookId")
+        if (status != "") {
+            let listBill = await billModel.ModelBill.find({ status: status }).populate("accountId")
+                .populate("bookId")
             dataReturn.data = listBill
-        }else{
-            let listBill = await billModel.ModelBill.find().populate("bookId")
+        } else {
+            let listBill = await billModel.ModelBill.find().populate("accountId")
+                .populate("bookId")
             dataReturn.data = listBill
         }
     } catch (error) {
@@ -29,28 +31,31 @@ exports.getListBillByIdAccount = async (req, res, next) => {
     let idAccount = req.params.idAccount
     let status = req.query.status
     try {
-        if(status!=""||status!=null){
-            let listBill = await billModel.ModelBill.find({accountId:idAccount, status:status}).populate("bookId")
+        if (status != "" || status != null) {
+            let listBill = await billModel.ModelBill.find({ accountId: idAccount, status: status }).populate("accountId")
+                .populate("bookId")
             dataReturn.data = listBill
-        }else{
-            let listBill = await billModel.ModelBill.find({accountId:idAccount}).populate("bookId")
+        } else {
+            let listBill = await billModel.ModelBill.find({ accountId: idAccount }).populate("accountId")
+                .populate("bookId")
             dataReturn.data = listBill
         }
-       
+
     } catch (error) {
         dataReturn.message = error
         dataReturn.status = 500
     }
     return res.json(dataReturn)
 }
-exports.getBillById = async (req, res, next)=>{
+exports.getBillById = async (req, res, next) => {
     let dataReturn = {
         message: "Lấy dữ liệu thành công",
         status: 200
     }
     let idBill = req.params.idBill
     try {
-        let listBill = await billModel.ModelBill.findOne({_id:idBill}).populate("bookId")
+        let listBill = await billModel.ModelBill.findOne({ _id: idBill }).populate("accountId")
+            .populate("bookId")
         dataReturn.data = listBill
     } catch (error) {
         dataReturn.message = error
@@ -77,11 +82,12 @@ exports.updateBill = async (req, res, next) => {
         message: "Cập nhật thành công",
         status: 200
     }
+    let status = req.body.status || null
     let idBilll = req.params.idBill
     try {
-        let billOld = await billModel.ModelBill.findOne({ _id: idBilll }).populate("bookId")
+        let billOld = await billModel.ModelBill.findOne({ _id: idBilll })
         let billUpdate = billOld;
-        if (req.body.status != null) {
+        if (status != null) {
             billUpdate.status = req.body.status
         } else {
             billUpdate.status = billOld.status
@@ -93,24 +99,26 @@ exports.updateBill = async (req, res, next) => {
     }
     return res.json(dataReturn)
 }
-exports.searchBillByPhone = async (req, res, next)=>{
-    let dataReturn ={
-        message:"Lấy dữ liệu thành công",
-        status:200
+exports.searchBillByPhone = async (req, res, next) => {
+    let dataReturn = {
+        message: "Lấy dữ liệu thành công",
+        status: 200
     }
     let status = req.query.status
     try {
-        if(status==""){
-            let listBill = await billModel.ModelBill.find({phone:req.query.phone})
+        if (status == "") {
+            let listBill = await billModel.ModelBill.find({ phone: req.query.phone }).populate("accountId")
+                .populate("bookId")
             dataReturn.data = listBill
-        }else{
-            let listBill = await billModel.ModelBill.find({phone:req.query.phone, status:status})
+        } else {
+            let listBill = await billModel.ModelBill.find({ phone: req.query.phone, status: status }).populate("accountId")
+                .populate("bookId")
             dataReturn.data = listBill
         }
 
     } catch (error) {
-        dataReturn.message=error
-        dataReturn.status=500
+        dataReturn.message = error
+        dataReturn.status = 500
     }
     return res.json(dataReturn)
 }

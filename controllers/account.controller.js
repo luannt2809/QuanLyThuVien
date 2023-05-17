@@ -308,3 +308,11 @@ exports.search = async (req, res, next) => {
     console.error(err);
   }
 };
+exports.logout = async (req, res, next)=>{
+  if (req.session != null) {
+    req.session.destroy(function () {
+        console.log("Đăng xuất thành công")
+        res.redirect('/login');
+    })
+}
+}

@@ -40,14 +40,16 @@ exports.updateAccount = async (req, res, next)=>{
         status:200,
         message:"Cập nhật tài khoản thành công"
     }
+    let passwd = req.body.passwd ||"";
+    let fullname = req.body.fullname||"";
+    let avatar = req.body.avatar||""
+    let email = req.body.email||""
     try {
         let Account = await accountModel.accountModel.findOne({_id:req.params.idAccount}).populate("roleId")
         let accountUpdate = Account
-        if((req.body.passwd!=""&&req.body.passwd!=undefined)
-        &&(req.body.fullname!=""&&req.body.fullname!=undefined)&&(req.body.email!=""&&req.body.email!=undefined)
-        &&(req.body.avatar!=""&&req.body.avatar!=undefined) ){
+        if(passwd!=""&& fullname!=""&&email!=""&& avatar!=""){
             const salt = await bcrypt.genSalt(15)
-            let pass = await bcrypt.hash(req.body.passwd, salt);
+            let pass = await bcrypt.hash(passwd, salt);
             console.log("step1");
             accountUpdate.passwd = pass
             accountUpdate.fullname = req.body.fullname
@@ -58,27 +60,28 @@ exports.updateAccount = async (req, res, next)=>{
             return res.json(dataReturn)
         }else{
             console.log("step2");
-            if(req.body.passwd!=""&&req.body.passwd!=undefined){
-                accountUpdate.passwd = Account.passwd
-            }else{
+            if(passwd!=""){
                 const salt = await bcrypt.genSalt(15)
-                let pass = await bcrypt.hash(req.body.passwd, salt);
+                let pass = await bcrypt.hash(passwd, salt);
                 accountUpdate.passwd = pass
+              
+            }else{
+                accountUpdate.passwd = Account.passwd
             }
-            if(req.body.fullname!=""&&req.body.fullname!=undefined){
-                accountUpdate.fullname = req.body.fullname
+            if(fullname!=""){
+                accountUpdate.fullname = fullname
               
             }else{
                 accountUpdate.fullname = Account.fullname
             }
-            if(req.body.avatar!=""&&req.body.avatar!=undefined){
-                accountUpdate.avatar = req.body.avatar
+            if(avatar!=""){
+                accountUpdate.avatar = avatar
             }else{
                 accountUpdate.avatar = Account.avatar
                
             }
-            if(req.body.email!=""&&req.body.email!=undefined){
-                accountUpdate.email = req.body.email
+            if(email!=""){
+                accountUpdate.email = email
             }else{
                 accountUpdate.email = Account.email
             }
