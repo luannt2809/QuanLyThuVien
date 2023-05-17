@@ -4,13 +4,14 @@ exports.getListBook = async (req, res, next)=>{
         message:"Lấy dữ liệu thành công",
         status:200
     }
-    let catId = req.query.catId
+    let catId = req.query.cateId||""
+    console.log("query: "+catId);
     try {
         if(catId==""){
-            let listBook = await bookModel.ModelBook.find().populate("catId")
+            let listBook = await bookModel.ModelBook.find().populate("cateId")
             dataReturn.data = listBook
         }else{
-            let listBook = await bookModel.ModelBook.find({catId:catId}).populate("catId")
+            let listBook = await bookModel.ModelBook.find({cateId:catId}).populate("cateId")
             dataReturn.data = listBook
         }
        
@@ -40,7 +41,7 @@ exports.searchBook =async (req, res, next)=>{
         message:"Lấy dữ liệu thành công"
     }
     try {
-        let listBook = await bookModel.ModelBook.find({name:{ $regex: req.query.name, $options: 'i' }}).populate("catId")
+        let listBook = await bookModel.ModelBook.find({name:{ $regex: req.query.name, $options: 'i' }}).populate("cateId")
         dataReturn.data = listBook
     } catch (error) {
         dataReturn.message= error
@@ -55,7 +56,7 @@ exports.viewBook = async(req, res, next)=>{
     }
     let idBook = req.params.idBook;
     try {
-        let bookDetail = await bookModel.ModelBook.findOne({_id:idBook}).populate("catId")
+        let bookDetail = await bookModel.ModelBook.findOne({_id:idBook}).populate("cateId")
         dataReturn.data = bookDetail
         
     } catch (error) {
