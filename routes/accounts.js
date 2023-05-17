@@ -38,5 +38,5 @@ router.post(
 );
 
 router.get("/search/", checkLogin.requireLogin, accountController.search);
-
+router.get('/logout',checkLogin.requireLogin, accountController.logout)
 module.exports = router;

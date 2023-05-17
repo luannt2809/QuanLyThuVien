@@ -19,8 +19,12 @@
         <div class="container">
             <form action="/bills/search/" method="GET">
                 <div class="input-group mt-4">
-                    <input type="number" class="form-control" id="keyword" name="keyword" value="<%= searchKeyword %>"
+                    <input type="number" class="form-control" id="keyword" name="keyword" value="<%= searchKeyword%>"
                         placeholder="Số điện thoại">
+                            <span class="input-group-text">Ngày mượn</span>
+                            <input type="date" name="searchDateRent" value="<%= searchDateRent%>" class="form-control">
+                            <span class="input-group-text">Ngày trả</span>
+                            <input type="date" name="searchDatePay" value="<%= searchDatePay%>" class="form-control">
                     <button class="btn btn-outline-secondary" type="submit">Tìm kiếm</button>
                 </div>
             </form>

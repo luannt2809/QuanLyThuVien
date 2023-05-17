@@ -5,6 +5,7 @@ exports.list = async (req, res, next) => {
   try {
     const searchKeyword = req.query.keyword || "";
     const searchCategory = req.query.category || "";
+    const searchPriceRent = req.query.priceRent ||"";
 
     let books = await bookModel.bookModel.find().populate("cateId");
     let categories = await bookModel.cateModel.find();
@@ -24,6 +25,7 @@ exports.list = async (req, res, next) => {
       searchCategory: searchCategory,
       searchKeyword: searchKeyword,
       categories: categories,
+      searchPriceRent:searchPriceRent
     });
   } catch (err) {
     console.error(err);
@@ -240,6 +242,7 @@ exports.searchBook = async (req, res, next) => {
   try {
     const searchKeyword = req.query.keyword || "";
     const searchCategory = req.query.category || "";
+    const searchPriceRent = req.query.priceRent ||"";
 
     const query = {};
 
@@ -250,7 +253,20 @@ exports.searchBook = async (req, res, next) => {
     if (searchCategory) {
       query.cateId = searchCategory;
     }
-
+    if(searchPriceRent ==0){
+      query.priceRent ={ $gt: 0}
+    }else if(searchPriceRent==1){
+      query.priceRent ={ $lt: 50000 }
+    
+    }else if( searchPriceRent ==2){
+      query.priceRent ={ $gte: 50000 , $lte:100000}
+     
+    }else if(searchPriceRent==3){
+      query.priceRent ={ $gte: 100000 , $lte:200000}
+     
+    }else if(searchPriceRent==4){
+      query.priceRent ={ $gt: 200000}
+    }
     let books = await bookModel.bookModel.find(query).populate("cateId");
     let categories = await bookModel.cateModel.find();
 
@@ -259,6 +275,7 @@ exports.searchBook = async (req, res, next) => {
       categories: categories,
       searchCategory: searchCategory,
       searchKeyword: searchKeyword,
+      searchPriceRent:searchPriceRent
     });
   } catch (err) {
     console.error(err);
