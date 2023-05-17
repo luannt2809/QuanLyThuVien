@@ -3,7 +3,7 @@ const bookSchema = new db.mongoose.Schema(
   {
     name: { type: String, required: true },
     author: { type: String, required: true },
-    catId: {
+    cateId: {
       type: db.mongoose.Types.ObjectId,
       required: true,
       ref: "ModelCategory",
