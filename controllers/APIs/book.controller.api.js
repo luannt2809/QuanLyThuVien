@@ -62,5 +62,5 @@ exports.viewBook = async(req, res, next)=>{
         dataReturn.message= error
         dataReturn.status=500
     }
-    return res.josn(dataReturn)
+    return res.json(dataReturn)
 }
