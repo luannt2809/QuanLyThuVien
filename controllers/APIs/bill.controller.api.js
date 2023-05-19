@@ -5,10 +5,10 @@ exports.getListBill = async (req, res, next) => {
         message: "Lấy dữ liệu thành công",
         status: 200
     }
-    let status = req.query.status || ""
+    let status = req.query.status || null;  
 
     try {
-        if (status != "") {
+        if (status != null) {
             let listBill = await billModel.ModelBill.find({ status: status }).populate("accountId")
                 .populate("bookId")
             dataReturn.data = listBill
@@ -28,10 +28,10 @@ exports.getListBillByIdAccount = async (req, res, next) => {
         message: "Lấy dữ liệu thành công",
         status: 200
     }
-    let idAccount = req.params.idAccount
-    let status = req.query.status
+    let idAccount = req.params.idAccount||""
+    let status = req.query.status||null
     try {
-        if (status != "" || status != null) {
+        if (status != null) {
             let listBill = await billModel.ModelBill.find({ accountId: idAccount, status: status }).populate("accountId")
                 .populate("bookId")
             dataReturn.data = listBill
@@ -104,9 +104,9 @@ exports.searchBillByPhone = async (req, res, next) => {
         message: "Lấy dữ liệu thành công",
         status: 200
     }
-    let status = req.query.status
+    let status = req.query.status||null
     try {
-        if (status == "") {
+        if (status == null) {
             let listBill = await billModel.ModelBill.find({ phone: req.query.phone }).populate("accountId")
                 .populate("bookId")
             dataReturn.data = listBill
