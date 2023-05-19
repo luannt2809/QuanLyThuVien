@@ -7,6 +7,7 @@ const apiBill = require('../controllers/APIs/bill.controller.api')
 router.post('/login', apiAccount.login);
 router.get('/account/:idAccount', apiAccount.getAccount);
 router.put('/account/:idAccount', apiAccount.updateAccount);
+router.post('/confiPass', apiAccount.confiPass);
 //======= book============
 router.get("/books", apiBook.getListBook)
 router.get('/categorys', apiBook.getListCategory)

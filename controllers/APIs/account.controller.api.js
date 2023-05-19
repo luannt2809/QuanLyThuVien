@@ -95,3 +95,34 @@ exports.updateAccount = async (req, res, next)=>{
     }
    
 }
+exports.confiPass = async (req, res, next)=>{
+    let dataReturn ={
+        message:"Xác nhận đúng mật khẩu",
+        status:200
+    }
+    let passwdOld = req.body.passwd||null
+    let username = req.body.username||null
+
+    try {
+        if(username!=""&&passwdOld!=""){
+            let ac = await accountModel.accountModel.findOne({username:username}).populate("roleId")
+            console.log(ac);
+            let checkPass = await bcrypt.compare(passwdOld, ac.passwd)
+            console.log(checkPass);
+            if(checkPass==true){
+                dataReturn.data = checkPass;
+                dataReturn.message="Xác nhận đúng mật khẩu"
+                dataReturn.status=200
+            }else{
+                dataReturn.data = checkPass;
+                dataReturn.message="Sai mật khẩu"
+                dataReturn.status=200
+            }
+            
+        }
+    } catch (error) {
+        dataReturn.message=error
+        dataReturn.status=500
+    }
+    return res.json(dataReturn)
+}
