@@ -65,3 +65,25 @@ exports.viewBook = async(req, res, next)=>{
     }
     return res.json(dataReturn)
 }
+exports.categorySearch= async(req, res, next)=>{
+    let dataReturn={
+        message:"", status:200
+    }
+    let name = req.query.name||""
+    try {
+        if(name){
+            let categories = await bookModel.ModelCategory.find({name: { $regex: name, $options: 'i' }})
+            dataReturn.message="Lấy dữ liệu thành công"
+            dataReturn.data = categories;
+        }else{
+            let categories = await bookModel.ModelCategory.find();
+            dataReturn.message="Lấy dữ liệu thành công"
+            dataReturn.data = categories;
+        }
+       
+    } catch (error) {
+        dataReturn.message=error
+        dataReturn.status=500
+    }
+    return res.json(dataReturn)
+}
