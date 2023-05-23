@@ -1,14 +1,14 @@
 var billModel = require("../models/bill.model");
-const moment = require('moment')
+const moment = require("moment");
 exports.list = async (req, res, next) => {
   try {
     const searchKeyword = req.query.keyword || "";
     const searchDateRent = req.query.searchDateRent || "";
-    const searchDatePay = req.query.searchDatePay || ""
+    const searchDatePay = req.query.searchDatePay || "";
 
     let bills = await billModel.ModelBill.find()
       .populate("accountId")
-      .populate("bookId");
+      .populate("bookId.idBook");
 
     if (searchKeyword) {
       query.phone = { $regex: searchKeyword };
@@ -18,7 +18,7 @@ exports.list = async (req, res, next) => {
       bills: bills,
       searchKeyword: searchKeyword,
       searchDateRent: searchDateRent,
-      searchDatePay: searchDatePay
+      searchDatePay: searchDatePay,
     });
   } catch (err) {
     console.error(err);
@@ -29,7 +29,7 @@ exports.view = async (req, res, next) => {
   try {
     let bill = await billModel.ModelBill.findById(req.params.id)
       .populate("accountId")
-      .populate("bookId");
+      .populate("bookId.idBook");
 
     res.render("bills/view", {
       bill: bill,
@@ -43,7 +43,8 @@ exports.edit = async (req, res, next) => {
   try {
     let bill = await billModel.ModelBill.findById(req.params.id)
       .populate("accountId")
-      .populate("bookId");
+      .populate("bookId.idBook");
+
     res.render("bills/edit", {
       bill: bill,
     });
@@ -78,29 +79,29 @@ exports.searchBill = async (req, res, next) => {
     const searchKeyword = req.query.keyword || "";
     // const phoneNumberRegex = /^(?:\+?84|0)(?:\d{9}|\d{10})$/;
     const searchDateRent = req.query.searchDateRent || "";
-    const searchDatePay = req.query.searchDatePay || ""
+    const searchDatePay = req.query.searchDatePay || "";
     const query = {};
 
     if (searchKeyword) {
       query.phone = { $regex: searchKeyword };
     }
     if (searchDateRent) {
-      const dateNew = moment(searchDateRent).format("DD/MM/YYYY")
-      query.dateRent = dateNew
+      const dateNew = moment(searchDateRent).format("DD/MM/YYYY");
+      query.dateRent = dateNew;
     }
     if (searchDatePay) {
-      const dateNew = moment(searchDatePay).format("DD/MM/YYYY")
-      query.datePay = dateNew
+      const dateNew = moment(searchDatePay).format("DD/MM/YYYY");
+      query.datePay = dateNew;
     }
     let bills = await billModel.ModelBill.find(query)
       .populate("accountId")
-      .populate("bookId");
+      .populate("bookId.idBook");
 
     res.render("bills/list", {
       bills: bills,
       searchKeyword: searchKeyword,
       searchDateRent: searchDateRent,
-      searchDatePay: searchDatePay
+      searchDatePay: searchDatePay,
     });
   } catch (err) {
     console.error(err);
