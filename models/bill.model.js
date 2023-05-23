@@ -3,9 +3,15 @@ const billSchema = new db.mongoose.Schema(
   {
     bookId: [
       {
-        type: db.mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: "bookModel",
+        idBook: {
+          type: db.mongoose.Schema.Types.ObjectId,
+          required: true,
+          ref: "bookModel",
+        },
+        quantity: {
+          type: Number,
+          required: true,
+        },
       },
     ],
     accountId: {
