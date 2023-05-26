@@ -1,4 +1,6 @@
 var billModel = require("../models/bill.model");
+var cateModel = require("../models/books.model");
+
 const moment = require("moment");
 exports.list = async (req, res, next) => {
   try {
@@ -31,8 +33,11 @@ exports.view = async (req, res, next) => {
       .populate("accountId")
       .populate("bookId.idBook");
 
+    let categories = await cateModel.cateModel.find();
+
     res.render("bills/view", {
       bill: bill,
+      categories: categories,
     });
   } catch (err) {
     console.error(err);
