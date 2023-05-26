@@ -37,12 +37,44 @@
             </li> -->
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col" style="max-width: 140px;"> <b>Tên sách:</b></div>
-                    <div class="col">
-                        <% bill.bookId.forEach(element=> { %>
-                            <%= element.idBook.name %> <br>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Tên sách</th>
+                                <!-- <th scope="col">Thể loại</th> -->
+                                <th scope="col">Giá thuê</th>
+                                <th scope="col">Số lượng</th>
+                                <th scope="col">Tổng giá thuê</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% bill.bookId.forEach((element, index)=> { %>
+                                <tr>
+                                    <td>
+                                        <%= index +1 %>
+                                    </td>
+
+                                    <td>
+                                        <%= element.idBook.name %> <br>
+                                    </td>
+
+                                    <td>
+                                        <%= element.idBook.priceRent %> vnđ <br>
+                                    </td>
+
+                                    <td>
+                                        <%= element.quantity %> <br>
+                                    </td>
+
+                                    <td>
+                                        <%= element.idBook.priceRent * element.quantity %> vnđ <br>
+                                    </td>
+                                </tr>
                                 <% }) %>
-                    </div>
+
+                        </tbody>
+                    </table>
                 </div>
             </li>
 
