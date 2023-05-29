@@ -91,13 +91,14 @@ exports.searchBill = async (req, res, next) => {
       query.phone = { $regex: searchKeyword };
     }
     if (searchDateRent) {
-      const dateNew = moment(searchDateRent).format("DD/MM/YYYY");
+      const dateNew = moment(searchDateRent).format("YYYY/MM/DD");
       query.dateRent = dateNew;
     }
     if (searchDatePay) {
-      const dateNew = moment(searchDatePay).format("DD/MM/YYYY");
+      const dateNew = moment(searchDatePay).format("YYYY/MM/DD");
       query.datePay = dateNew;
     }
+    console.log(query);
     let bills = await billModel.ModelBill.find(query)
       .populate("accountId")
       .populate("bookId.idBook");
