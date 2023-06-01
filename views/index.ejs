@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trang chủ</title>
   <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="/stylesheets/accounts.css" />
+  <link rel="stylesheet" href="/stylesheets/style.css" />
 </head>
 
 <body>
@@ -52,6 +52,63 @@
           </div>
         </div>
       </nav>
+    </div>
+
+    <div class="row total-all">
+      <div class="col-sm-3 mb-3 mb-sm-0">
+        <div class="card">
+          <div class="card-body">
+            <i class="uil uil-user-circle text-primary"></i>
+            <h5 class="card-title">Tổng thủ thư</h5>
+            <p class="card-text">
+              <%= countAccount %> người
+            </p>
+            <a href="/accounts" class="btn btn-warning text-white">Xem chi tiết</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 mb-3 mb-sm-0">
+        <div class="card">
+          <div class="card-body">
+            <i class="uil uil-box text-primary"></i>
+            <h5 class="card-title">Tổng sản phẩm</h5>
+            <p class="card-text">
+              <%= countBook %> sản phẩm
+            </p>
+            <a href="/books" class="btn btn-warning text-white">Xem chi tiết</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 mb-3 mb-sm-0">
+        <div class="card">
+          <div class="card-body">
+            <i class="uil uil-usd-circle text-primary"></i>
+            <h5 class="card-title">Tổng doanh thu</h5>
+            <p class="card-text">
+              <% let totalPrice =0 %>
+                <% bills.forEach(element=> { %>
+                  <% if (element.status==1) { %>
+                    <% totalPrice +=element.totalPrice %>
+                      <% } %>
+                        <% }) %>
+                          <%= totalPrice %> đ
+            </p>
+            <a href="/bills" class="btn btn-warning text-white">Xem chi tiết</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 mb-3 mb-sm-0">
+        <div class="card">
+          <div class="card-body">
+            <i class="uil uil-bill text-primary"></i>
+            <h5 class="card-title">Tổng đơn hàng</h5>
+            <p class="card-text">
+              <%= countBill %> đơn hàng
+            </p>
+            <a href="/bills" class="btn btn-warning text-white">Xem chi tiết</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
