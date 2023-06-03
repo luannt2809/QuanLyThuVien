@@ -6,7 +6,7 @@ var billModel = require("../models/bill.model");
 var bookModel = require("../models/books.model");
 
 /* GET home page. */
-router.get("/", async function (req, res, next) {
+router.get("/",checkLogin.requireLogin, async function (req, res, next) {
   let countAccount = await accountModel.accountModel.countDocuments({roleId: '645baaef738c215da807bae6'});
   let countBook = await bookModel.bookModel.countDocuments();
   let countBill = await billModel.ModelBill.countDocuments();
