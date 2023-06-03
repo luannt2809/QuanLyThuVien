@@ -77,22 +77,22 @@ exports.addBill = async (req, res, next) => {
     status: 201,
   };
   let bill = req.body;
-  let bookId = bill.bookId||[]
-  let accountId = bill.accountId||""
-  let imageCCCD = bill.imageCCCD||[]
-  let dateRent = bill.dateRent||""
-  let datePay = bill.datePay||""
-  let totalPrice = bill.totalPrice||0
-  let phone= bill.phone||""
-  let fullname = bill.fullname||""
-  let status = bill.status|| 0
+  let bookId = bill.bookId || []
+  let accountId = bill.accountId || ""
+  let imageCCCD = bill.imageCCCD || []
+  let dateRent = bill.dateRent || ""
+  let datePay = bill.datePay || ""
+  let totalPrice = bill.totalPrice || 0
+  let phone = bill.phone || ""
+  let fullname = bill.fullname || ""
+  let status = bill.status || 0
   console.log(bill);
-  
+
   try {
     let newBill = new billModel.ModelBill({
       bookId: bookId,
       accountId: accountId,
-      imageCCCD:imageCCCD,
+      imageCCCD: imageCCCD,
       dateRent: dateRent,
       datePay: datePay,
       totalPrice: totalPrice,
@@ -146,24 +146,48 @@ exports.searchBillByPhone = async (req, res, next) => {
     status: 200,
   };
   let status = req.query.status || null;
+  console.log("search");
   try {
     if (status == null) {
-      let listBill = await billModel.ModelBill.find({ phone: req.query.phone })
+      let listBill = await billModel.ModelBill.find({
+        $or: [
+          { phone:{ $regex: req.query.phoneOrFullname, $options: 'i' } },
+          { fullname: { $regex: req.query.phoneOrFullname, $options: 'i' } }
+        ]
+      })
         .populate("accountId")
         .populate("bookId.idBook");
       dataReturn.data = listBill;
     } else {
       let listBill = await billModel.ModelBill.find({
-        phone: req.query.phone,
-        status: status,
+        $or: [
+          { phone:{ $regex: req.query.phoneOrFullname, $options: 'i' } },
+          { fullname: { $regex: req.query.phoneOrFullname, $options: 'i' } }
+        ],
+        status: status
       })
         .populate("accountId")
         .populate("bookId.idBook");
       dataReturn.data = listBill;
     }
-  } catch (error) {
-    dataReturn.message = error;
+  } catch (err) {
+    dataReturn.message = err;
     dataReturn.status = 500;
+    console.log("lỗi: " + err);
   }
   return res.json(dataReturn);
 };
+exports.searchBill = async (req, res, next) => {
+  console.log("step 1");
+  // let dataReturn = {
+  //   message: "Lấy dữ liệu thành công",
+  //   status: 200,
+  // };
+  // try {
+
+  // } catch (error) {
+  //   dataReturn.message=error
+  //   dataReturn.status=500
+  // }
+
+}

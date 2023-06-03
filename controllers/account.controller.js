@@ -10,18 +10,21 @@ exports.login = async (req, res, next) => {
       let account = await accountModel.accountModel.findOne({
         username: req.body.username,
       });
-
       if (account != null) {
-        // let checkpass = bcrypt.compare(req.body.passwd, user.password);
-        if (account.roleId != "645baad7738c215da807bae5") {
-          msg = "Bạn không phải là quản trị viên.";
-        } else if (req.body.passwd == account.passwd) {
-          req.session.accountLogin = account;
-          msg = "";
-          return res.redirect("/");
-        } else {
+        let checkpass = await bcrypt.compare(req.body.passwd, account.passwd);
+        console.log("check pass hashcode: "+checkpass);
+        if(checkpass==true){
+          if (account.roleId != "645baad7738c215da807bae5") {
+            msg = "Bạn không phải là quản trị viên.";
+          } else {
+            req.session.accountLogin = account;
+            msg = "";
+            return res.redirect("/");
+          } 
+        }else {
           msg = "Sai mật khẩu.";
         }
+       
       } else {
         msg = "Tài khoản không tồn tại.";
       }
