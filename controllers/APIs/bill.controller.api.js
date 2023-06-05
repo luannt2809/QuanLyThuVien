@@ -116,7 +116,7 @@ exports.updateBill = async (req, res, next) => {
   let idBilll = req.params.idBill;
   let datePay = req.body.datePay || ""
 
-  console.log(formattedDate);
+  // console.log(formattedDate);
   try {
     let billOld = await billModel.ModelBill.findOne({ _id: idBilll });
     let billUpdate = billOld;
@@ -131,7 +131,7 @@ exports.updateBill = async (req, res, next) => {
       const curretDate = new Date();
       const formattedDate = curretDate.toISOString().slice(0, 10);
       const datefomat = moment(formattedDate).format("DD/MM/YYYY");
-      billUpdate.datePay = datefomat
+      // billUpdate.datePay = datefomat
     }
     await billModel.ModelBill.updateOne({ _id: idBilll }, billUpdate);
   } catch (error) {
