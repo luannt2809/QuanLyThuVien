@@ -128,6 +128,7 @@ exports.updateBill = async (req, res, next) => {
     } else {
       const curretDate = new Date();
       const formattedDate = curretDate.toISOString().slice(0, 10);
+
       const datefomat = moment(formattedDate).format("YYYY/MM/DD");
       billUpdate.datePay = datefomat
     }
