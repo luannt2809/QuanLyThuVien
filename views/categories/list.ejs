@@ -23,7 +23,7 @@
         <div class="container">
             <form action="/categories/search/" method="GET">
                 <div class="input-group mt-4">
-                    <input type="text" class="form-control" id="keyword" name="keyword" value=""
+                    <input type="text" class="form-control" id="keyword" name="keyword" value="<%= keyword %>"
                         placeholder="Nhập từ khóa">
                     <button class="btn btn-outline-secondary" type="submit">Tìm kiếm</button>
                 </div>
@@ -76,6 +76,8 @@
 
         </div>
     </div>
+
+    <%- include('../layouts/footer.ejs') %>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
         integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"

@@ -3,8 +3,9 @@ var fs = require("fs");
 
 exports.list = async (req, res, next) => {
   let categories = await cateModel.cateModel.find();
+  const keyword = req.query.keyword || "";
 
-  res.render("categories/list", { categories: categories });
+  res.render("categories/list", { categories: categories, keyword: keyword });
 };
 
 exports.add = (req, res, next) => {
@@ -69,13 +70,14 @@ exports.putCate = async (req, res, next) => {
 
 exports.search = async (req, res, next) => {
   try {
-    const keyword = req.query.keyword;
+    const keyword = req.query.keyword || "";
     const regex = new RegExp(keyword, "i");
 
     let categories = await cateModel.cateModel.find({ name: regex });
 
     res.render("categories/list", {
       categories: categories,
+      keyword: keyword,
     });
   } catch (err) {
     console.error(err);

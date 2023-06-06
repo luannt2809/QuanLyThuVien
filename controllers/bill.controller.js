@@ -7,6 +7,7 @@ exports.list = async (req, res, next) => {
     const searchKeyword = req.query.keyword || "";
     const searchDateRent = req.query.searchDateRent || "";
     const searchDatePay = req.query.searchDatePay || "";
+    const searchStatus = req.query.searchStatus || "";
 
     let bills = await billModel.ModelBill.find()
       .populate("accountId")
@@ -21,6 +22,7 @@ exports.list = async (req, res, next) => {
       searchKeyword: searchKeyword,
       searchDateRent: searchDateRent,
       searchDatePay: searchDatePay,
+      searchStatus: searchStatus,
     });
   } catch (err) {
     console.error(err);
@@ -85,6 +87,7 @@ exports.searchBill = async (req, res, next) => {
     // const phoneNumberRegex = /^(?:\+?84|0)(?:\d{9}|\d{10})$/;
     const searchDateRent = req.query.searchDateRent || "";
     const searchDatePay = req.query.searchDatePay || "";
+    const searchStatus = req.query.searchStatus || "";
     const query = {};
 
     if (searchKeyword) {
@@ -98,6 +101,9 @@ exports.searchBill = async (req, res, next) => {
       const dateNew = moment(searchDatePay).format("YYYY/MM/DD");
       query.datePay = dateNew;
     }
+    if (searchStatus) {
+      query.status = searchStatus
+    }
     console.log(query);
     let bills = await billModel.ModelBill.find(query)
       .populate("accountId")
@@ -108,6 +114,7 @@ exports.searchBill = async (req, res, next) => {
       searchKeyword: searchKeyword,
       searchDateRent: searchDateRent,
       searchDatePay: searchDatePay,
+      searchStatus: searchStatus,
     });
   } catch (err) {
     console.error(err);
