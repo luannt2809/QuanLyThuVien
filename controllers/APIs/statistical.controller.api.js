@@ -114,41 +114,29 @@ exports.statilcalBillByDatePay = async (req, res, next) => {
     const datePay = req.query.datePay || ""
     let status = req.query.status || -1
     try {
-        console.log("step1");
         let query = {}
         if (datePay != "") {
-            console.log("chưa format: " + datePay);
-            // const pay = moment(datePay).format("YYYY/MM/DD");
-            // console.log("đã format"+pay);
             query.datePay = datePay
 
         }
-        console.log("step2");
         if (status != -1) {
-            console.log("step3");
             query.status = status;
         }
         console.log(query);
         let bills = await billModel.ModelBill.find(query)
             .populate("accountId")
             .populate("bookId.idBook");
-        console.log("step4");
         let countBill = await billModel.ModelBill.countDocuments(query);
-        console.log("step5");
         let totalBill = 0;
-        console.log("step6");
         bills.map((item) => {
             totalBill += item.totalPrice;
         })
-        console.log("step7");
-
         dataReturn.data = {
             countBillStatus: countBill,
             billStatus: bills,
             totalBill: totalBill
 
         }
-        console.log("step5");
     } catch (error) {
         dataReturn.message = error
         dataReturn.status = 500
