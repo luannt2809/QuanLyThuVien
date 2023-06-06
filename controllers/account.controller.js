@@ -12,19 +12,18 @@ exports.login = async (req, res, next) => {
       });
       if (account != null) {
         let checkpass = await bcrypt.compare(req.body.passwd, account.passwd);
-        console.log("check pass hashcode: "+checkpass);
-        if(checkpass==true){
+        console.log("check pass hashcode: " + checkpass);
+        if (checkpass == true) {
           if (account.roleId != "645baad7738c215da807bae5") {
             msg = "Bạn không phải là quản trị viên.";
           } else {
             req.session.accountLogin = account;
             msg = "";
             return res.redirect("/");
-          } 
-        }else {
+          }
+        } else {
           msg = "Sai mật khẩu.";
         }
-       
       } else {
         msg = "Tài khoản không tồn tại.";
       }
@@ -37,11 +36,13 @@ exports.login = async (req, res, next) => {
 
 exports.list = async (req, res, next) => {
   try {
+    const keyword = req.query.keyword || "";
+
     let accounts = await accountModel.accountModel
       .find({ roleId: "645baaef738c215da807bae6" })
       .populate("roleId");
 
-    res.render("accounts/list", { accounts: accounts });
+    res.render("accounts/list", { accounts: accounts, keyword, keyword });
   } catch (err) {
     console.error(err);
   }
@@ -297,7 +298,7 @@ exports.deleteAccount = async (req, res, next) => {
 
 exports.search = async (req, res, next) => {
   try {
-    const keyword = req.query.keyword;
+    const keyword = req.query.keyword || "";
     const regex = new RegExp(keyword, "i");
 
     let accounts = await accountModel.accountModel
@@ -306,16 +307,21 @@ exports.search = async (req, res, next) => {
 
     res.render("accounts/list", {
       accounts: accounts,
+      keyword: keyword,
     });
   } catch (err) {
     console.error(err);
   }
 };
-exports.logout = async (req, res, next)=>{
+exports.logout = async (req, res, next) => {
   if (req.session != null) {
-    req.session.destroy(function () {
-        console.log("Đăng xuất thành công")
-        res.redirect('/login');
-    })
-}
-}
+    req.session.destroy((err) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log("Đăng xuất thành công");
+        res.redirect("/accounts/login");
+      }
+    });
+  }
+};

@@ -25,6 +25,11 @@
                     <input type="date" name="searchDateRent" value="<%= searchDateRent%>" class="form-control">
                     <span class="input-group-text">Ngày trả</span>
                     <input type="date" name="searchDatePay" value="<%= searchDatePay%>" class="form-control">
+                    <select class="form-select" aria-label="Chọn trạng thái" name="searchStatus">
+                        <option value="">Tất cả</option>
+                        <option value="0">Chưa trả</option>
+                        <option value="1">Đã trả</option>
+                    </select>
                     <button class="btn btn-outline-secondary" type="submit">Tìm kiếm</button>
                 </div>
             </form>
@@ -107,6 +112,8 @@
 
         </div>
     </div>
+
+    <%- include('../layouts/footer.ejs') %>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
         integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
