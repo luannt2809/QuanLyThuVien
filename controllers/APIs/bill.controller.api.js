@@ -115,8 +115,6 @@ exports.updateBill = async (req, res, next) => {
   let status = req.body.status || null;
   let idBilll = req.params.idBill;
   let datePay = req.body.datePay || ""
-
-  // console.log(formattedDate);
   try {
     let billOld = await billModel.ModelBill.findOne({ _id: idBilll });
     let billUpdate = billOld;
@@ -130,8 +128,9 @@ exports.updateBill = async (req, res, next) => {
     } else {
       const curretDate = new Date();
       const formattedDate = curretDate.toISOString().slice(0, 10);
-      const datefomat = moment(formattedDate).format("DD/MM/YYYY");
-      // billUpdate.datePay = datefomat
+
+      const datefomat = moment(formattedDate).format("YYYY/MM/DD");
+      billUpdate.datePay = datefomat
     }
     await billModel.ModelBill.updateOne({ _id: idBilll }, billUpdate);
   } catch (error) {
@@ -146,7 +145,6 @@ exports.searchBillByPhone = async (req, res, next) => {
     status: 200,
   };
   let status = req.query.status || null;
-  console.log("search");
   try {
     if (status == null) {
       let listBill = await billModel.ModelBill.find({
@@ -177,17 +175,53 @@ exports.searchBillByPhone = async (req, res, next) => {
   }
   return res.json(dataReturn);
 };
-exports.searchBill = async (req, res, next) => {
-  console.log("step 1");
-  // let dataReturn = {
-  //   message: "Lấy dữ liệu thành công",
-  //   status: 200,
-  // };
-  // try {
+exports.searchBillByDateRent = async (req, res, next) => {
+  let dataReturn = {
+    message: "Lấy dữ liệu thành công",
+    status: 200,
+  };
+  let dateRent = req.query.dateRent||""
+  let status = req.query.status||-1
+  let query ={}
+  try {
+    if(dateRent!=""){
+      query.dateRent = dateRent
+    }
+    if(status!=-1){
+      query.status= status
+    }
+    let listBill = await billModel.ModelBill.find(query) .populate("accountId")
+    .populate("bookId.idBook");
+    dataReturn.data = listBill
+  } catch (error) {
+    dataReturn.message= error
+    dataReturn.status=500
+  }
+  return res.json(dataReturn)
 
-  // } catch (error) {
-  //   dataReturn.message=error
-  //   dataReturn.status=500
-  // }
-
+}
+exports.searchBillByDatePay = async (req, res, next) => {
+  let dataReturn = {
+    message: "Lấy dữ liệu thành công",
+    status: 200,
+  };
+  let datePay = req.query.datePay||""
+  let status = req.query.status||-1
+  let query ={}
+  try {
+    if(datePay!=""){
+      query.datePay = datePay
+    }
+    if(status!=-1){
+      query.status= status
+    }
+    let listBill = await billModel.ModelBill.find(query)
+    .populate("accountId")
+    .populate("bookId.idBook");
+    dataReturn.data = listBill
+  } catch (error) {
+    dataReturn.message= error
+    dataReturn.status=500
+  }
+  return res.json(dataReturn)
 }

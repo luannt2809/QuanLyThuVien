@@ -22,6 +22,8 @@ router.get('/bill/:idBill',apiBill.getBillById)
 router.post('/bill', apiBill.addBill)
 router.put('/bill/:idBill', apiBill.updateBill)
 router.get('/bill', apiBill.searchBillByPhone)
+router.get('/billsDateRent', apiBill.searchBillByDateRent)
+router.get('/billsDatePay', apiBill.searchBillByDatePay)
 //==============statiscal=====================
 router.get('/statiscalAll', statiscal.statilcalAll)
 router.get('/statiscalByStatus',statiscal.statilcalBillByStatus)
