@@ -14,6 +14,7 @@ router.get("/books", apiBook.getListBook)
 router.get('/categorys', apiBook.getListCategory)
 router.get('/books/search', apiBook.searchBook)
 router.get('/book/:idBook', apiBook.viewBook);
+router.put('/book/:idBook', apiBook.editBook);
 router.get('/categorys/search', apiBook.categorySearch)
 //======== bill===============
 router.get('/bills',apiBill.getListBill)

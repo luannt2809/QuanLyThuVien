@@ -65,6 +65,32 @@ exports.viewBook = async(req, res, next)=>{
     }
     return res.json(dataReturn)
 }
+exports.editBook = async (req, res, next)=>{
+    let dataReturn ={
+        status:200,
+        message:"Cập nhật thành công"
+    }
+    let idBook = req.params.idBook;
+    let quantity = req.body.quantity||null;
+    let nameBook = req.body.name||""
+    try {
+        let bookDetail = await bookModel.ModelBook.findOne({_id:idBook}).populate("cateId")
+        let BookUpdate = bookDetail
+        if(nameBook!=""){
+            BookUpdate.name=nameBook;
+        }else{
+            BookUpdate.name= bookDetail.name
+        }
+        if(quantity!=null){
+            BookUpdate.quantity = quantity;
+        }
+        await bookModel.ModelBook.updateOne({_id:idBook}, BookUpdate);
+    } catch (error) {
+        dataReturn.message= error
+        dataReturn.status=500
+    }
+    return res.json(dataReturn)
+}
 exports.categorySearch= async(req, res, next)=>{
     let dataReturn={
         message:"", status:200
