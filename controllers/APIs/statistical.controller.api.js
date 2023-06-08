@@ -85,6 +85,7 @@ exports.statilcalBillByDateRent = async (req, res, next) => {
         if (status != -1) {
             query.status = status;
         }
+       
         let bills = await billModel.ModelBill.find(query)
             .populate("accountId")
             .populate("bookId.idBook");

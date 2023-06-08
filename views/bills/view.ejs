@@ -113,6 +113,15 @@
                     </div>
                 </div>
             </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col" style="max-width: 140px;"> <b>Ảnh CCCD:</b></div>
+                    <%bill.imageCCCD.forEach((item)=>{%>
+                        <img src="<%=item%>" style="width: 200px; height: 200px;" class="rounded mx-auto" alt="...">
+                   <% }) %>
+               
+                </div>
+            </li>
 
             <li class="list-group-item">
                 <div class="row">
