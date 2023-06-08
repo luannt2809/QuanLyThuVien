@@ -28,9 +28,15 @@
                     <select class="form-select" aria-label="Chọn thể loại" name="category">
                         <option value="">Tất cả thể loại</option>
                         <% categories.forEach(element=> { %>
-                            <option value="<%= element._id %>" <%=element._id===searchCategory ? 'selected' : '' %>>
+                            <% if(element._id==searchCategory){%>
+                                <option selected value="<%= element._id %>">
+                                    <%= element.name %>
+                                </option>
+                           <% } else{%>
+                            <option value="<%= element._id %>">
                                 <%= element.name %>
                             </option>
+                          <% }%>
                             <% }) %>
                     </select>
                     <select class="form-select" aria-label="Chọn thể loại" name="priceRent">
@@ -40,22 +46,22 @@
                                 <option value="0">Tất cả giá mượn</option>
                            <%}%>
                            <% let select1=""; if(searchPriceRent==1){select1="selected" %>
-                            <option <%=select1 %> value="0">Dưới 50.000VNĐ</option>
+                            <option <%=select1 %> value="1">Dưới 50.000VNĐ</option>
                             <%}else{%>
                                 <option value="1">Dưới 50.000VNĐ</option>
                            <%}%>
                            <% let select2=""; if(searchPriceRent==2){select2="selected" %>
-                            <option <%=select2 %> value="0">Từ 50.000VNĐ-100.000VNĐ</option>
+                            <option <%=select2 %> value="2">Từ 50.000VNĐ-100.000VNĐ</option>
                             <%}else{%>
                                 <option value="2">Từ 50.000VNĐ-100.000VNĐ</option>
                            <%}%>
                            <% let select3=""; if(searchPriceRent==3){select3="selected" %>
-                            <option <%=select3 %> value="0">Từ 100.000VNĐ-200.000VNĐ</option>
+                            <option <%=select3 %> value="3">Từ 100.000VNĐ-200.000VNĐ</option>
                             <%}else{%>
                                 <option value="3">Từ 100.000VNĐ-200.000VNĐ</option>
                            <%}%>
                            <% let select4=""; if(searchPriceRent==4){select4="selected" %>
-                            <option <%=select4 %> value="0">Trên 200.000VNĐ</option>
+                            <option <%=select4 %> value="4">Trên 200.000VNĐ</option>
                             <%}else{%>
                                 <option value="4">Trên 200.000VNĐ</option>
                            <%}%>

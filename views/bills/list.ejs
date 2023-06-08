@@ -26,9 +26,21 @@
                     <span class="input-group-text">Ngày trả</span>
                     <input type="date" name="searchDatePay" value="<%= searchDatePay%>" class="form-control">
                     <select class="form-select" aria-label="Chọn trạng thái" name="searchStatus">
-                        <option value="">Tất cả</option>
-                        <option value="0">Chưa trả</option>
-                        <option value="1">Đã trả</option>
+                        <% let select=""; if(searchStatus==-1){select="selected" %>
+                        <option <%=select %> value="-1">Tất cả</option>
+                        <%}else{%>
+                            <option value="-1">Tất cả</option>
+                       <%}%>
+                       <% let select1=""; if(searchStatus==0){select1="selected" %>
+                       <option <%=select1 %> value="0">Chưa trả</option>
+                       <%}else{%>
+                           <option value="0">Chưa trả</option>
+                      <%}%>
+                      <% let select2=""; if(searchStatus==1){select2="selected" %>
+                      <option <%=select2 %> value="1">Đã trả</option>
+                      <%}else{%>
+                          <option value="1">Đã trả</option>
+                     <%}%>
                     </select>
                     <button class="btn btn-outline-secondary" type="submit">Tìm kiếm</button>
                 </div>
